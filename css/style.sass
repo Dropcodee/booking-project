@@ -69,6 +69,18 @@ body,html
   right: 0
   margin: 0 auto
   width: 70%
+.card__user
+  background: $material__black !important
+  button
+    border-radius: 45px !important
+    background: transparent !important
+    border: 1px solid $material__red  !important
+    transition: all 500ms ease-in
+    &:hover
+      background: $material__red !important
+      color: $material__white
+      border: 0
+      
 .student__info
   margin: 5em auto !important
 .uk-background-cover
@@ -77,6 +89,31 @@ body,html
   background: linear-gradient(to right, #E2E2E2, #C9D6FF)
 .avatar__wrapper
   margin: 5em auto
+.user__data
+  #details__text
+    font-weight: 600
+    font-size: 18px
+    letter-spacing: .1em
+    color: $material__gold !important
+#custom__divider
+  width: 30%
+  height: 10%
+  padding: .04em
+  border: 0
+  background: $material__gold
+  margin: 1em auto
+#offence__header
+  padding-top: 8em
+.card__hover
+  transition: 500ms cubic-bezier(1, 0.7, 0.58, 1) !important
+  background: #C9D6FF !important
+  background: -webkit-linear-gradient(to right, #E2E2E2, #C9D6FF) !important
+  background: linear-gradient(to right, #E2E2E2, #C9D6FF) !important
+  background-position: 30vh!important
+  &:hover
+    transition: 900ms cubic-bezier(1, 0.7, 0.58, 1) !important
+    background: $material__white !important
+    background-position: 100% !important
 @media (min-width: $breakpoint__mobile__iphone)
   .card__search
     width: 90%
