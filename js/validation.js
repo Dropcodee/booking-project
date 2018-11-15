@@ -13,28 +13,60 @@ loginBtn.addEventListener("click", event => {
     });
   } else {
     if (password.length > 8) {
-      if (username.length > 4) {
-        UIkit.notification({
-          message: "Your Request is Sending...",
-          status: "success",
-          pos: "top-center",
-          timeout: 5000
-        });
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-          if (this.readyState == 4 && this.status == 200) {
-            var data = JSON.parse(this.response);
+      if (username.length > 3) {
+        $("input").attr("disabled", true);
+        $("#btn_login")
+          .attr("disabled", true)
+          .html("Loading...");
+        $.ajax({
+          method: "POST",
+          url: "http://localhost:8080/revo/server/public/login",
+          data: { username: username, password: password },
+          cache: false,
+          success: response => {
+            var data = JSON.parse(response);
+            if (data.error) {
+              UIkit.notification({
+                message: data.error.err_text,
+                status: "danger",
+                pos: "top-center",
+                timeout: 5000
+              });
+              $("input").attr("disabled", false);
+              $("#btn_login")
+                .attr("disabled", false)
+                .html(
+                  `<button 
+                  class="uk-button uk-button-danger rounded" 
+                  uk-icon="icon: check" 
+                  id="btn_login">
+                    Login 
+                  </button>`
+                );
+            } else {
+              window.location.href = "booking.html";
+            }
+          },
+          error: err => {
             UIkit.notification({
-              message: "Login Succesful",
-              status: "success",
+              message: "Sorry we couldn't connect to server",
+              status: "danger",
               pos: "top-center",
               timeout: 5000
             });
-            window.location.href = "booking.html";
+            $("input").attr("disabled", false);
+            $("#btn_login")
+              .attr("disabled", false)
+              .html(
+                `<button 
+                  class="uk-button uk-button-danger rounded" 
+                  uk-icon="icon: check" 
+                  id="btn_login">
+                    Login 
+                  </button>`
+              );
           }
-        };
-        xhttp.open("GET", "http://localhost/Revo/js/users.json", true);
-        xhttp.send();
+        });
       } else {
         UIkit.notification({
           message: "Username is too short or incorrect",
