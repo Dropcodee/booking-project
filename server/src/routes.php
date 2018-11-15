@@ -183,8 +183,10 @@ $app->get("/students/{reg_no}", function ($request, $response, $args) {
 // Search for a student
 $app->get("/students/search/{q}", function ($req, $res, $args) {
     $search = $args["q"];
-    $sql = "SELECT * FROM students WHERE students.reg_no LIKE :search";
-    $search_param = [":search" => $search . '%'];
+    $name = explode(" ", $search);
+    $reg_no = explode(" ", $search);
+    $sql = "SELECT * FROM students WHERE students.reg_no LIKE :reg_no OR students.name LIKE :name";
+    $search_param = [":name" => '%' . $name[0] . '%', "reg_no" => '%' . $reg_no[0] . '%'];
     $db = new Db();
     $searchResult = $db->getQuery($sql, $search_param);
     if ($searchResult > 0) {
@@ -212,6 +214,28 @@ $app->get("/offense", function () {
         return json_encode($offense);
     } else {
         return '{"error": {"err_text": "Oops offense not found!!!"}}';
+    }
+});
+
+/*************************************************************
+ ******************** Get student offenses ***********************
+ *************************************************************/
+$app->get("/offense/{reg_no}", function ($request, $response, $args) {
+    $reg_no = $args["reg_no"];
+    // SQL Query to the database
+    $sql = "SELECT * FROM booking WHERE reg_no = :reg_no";
+
+    // Get Db Object
+    $db = new Db();
+
+    // Connect and Send Query
+    $students = $db->getQuery($sql, ["reg_no" => $reg_no]);
+
+    if ($students > 0) {
+        // Encode in JSON
+        return json_encode($students);
+    } else {
+        return '{"error": {"err_text": "No offense for this student yet"}}';
     }
 });
 
