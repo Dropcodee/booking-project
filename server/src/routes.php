@@ -223,7 +223,7 @@ $app->get("/offense", function () {
 $app->get("/offense/{reg_no}", function ($request, $response, $args) {
     $reg_no = $args["reg_no"];
     // SQL Query to the database
-    $sql = "SELECT * FROM booking WHERE reg_no = :reg_no";
+    $sql = "SELECT * FROM booking WHERE reg_no = :reg_no ORDER BY created DESC";
 
     // Get Db Object
     $db = new Db();
@@ -246,7 +246,7 @@ $app->post("/book", function ($req, $res, $args) {
     $reg_no = $req->getParam("reg_no");
     $offense = $req->getParam("offense");
     $category = $req->getParam("category");
-    $status = $req->getParam("status");
+    $status = "Pending";
     $db = new Db();
 
     $sql_select = "SELECT name from students WHERE reg_no = :reg_no";

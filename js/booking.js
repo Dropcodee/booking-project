@@ -1,3 +1,25 @@
+function dateConvert(date) {
+  var date_new = new Date(date).toLocaleString()
+  return date_new;
+}
+
+function timeago(date) {
+  var seconds = Math.floor((new Date() - new Date(date)) / 1000);
+  if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 2) return Math.round(seconds / (60 * 60 * 24 * 365.25)) + " years ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 1) return "1 year ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 30.4)) >= 2) return Math.round(seconds / (60 * 60 * 24 * 30.4)) + " months ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 30.4)) >= 1) return "1 month ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 7)) >= 2) return Math.round(seconds / (60 * 60 * 24 * 7)) + " weeks ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 7)) >= 1) return "1 week ago";
+  else if (Math.round(seconds / (60 * 60 * 24)) >= 2) return Math.round(seconds / (60 * 60 * 24)) + " days ago";
+  else if (Math.round(seconds / (60 * 60 * 24)) >= 1) return "1 day ago";
+  else if (Math.round(seconds / (60 * 60)) >= 2) return Math.round(seconds / (60 * 60)) + " hours ago";
+  else if (Math.round(seconds / (60 * 60)) >= 1) return "1 hour ago";
+  else if (Math.round(seconds / 60) >= 2) return Math.round(seconds / 60) + " minutes ago";
+  else if (Math.round(seconds / 60) >= 1) return "1 minute ago";
+  else if (seconds >= 2) return seconds + " seconds ago";
+  else return seconds + "1 second ago";
+} /*]]>*/
 $(() => {
   $("#loading").hide();
   $("#search").keyup(e => {
@@ -6,13 +28,14 @@ $(() => {
     if (search !== "") {
       if (search.length > 2) {
         $("#loading").show();
+        $("#student__info").hide();
         $.ajax({
           method: "GET",
           url: `http://localhost:8080/revo/server/public/students/search/${search}`,
           cache: false,
           success: response => {
             $("#loading").hide();
-            $("#book__user").html("");
+            $("#student__info").show()
             var searchResult = JSON.parse(response);
             var finalResult = "";
             if (searchResult.error) {
@@ -30,7 +53,7 @@ $(() => {
                 </div>
               `);
             } else {
-              searchResult.forEach((searchResult, key) => {
+              searchResult.forEach(searchResult => {
                 let name = searchResult.name,
                   reg_no = searchResult.reg_no,
                   matric = searchResult.matric,
@@ -73,15 +96,19 @@ $(() => {
                 `;
                 $(document).on("click", `#${reg_no}`, e => {
                   e.preventDefault();
-                  $.get(
-                    `http://localhost:8080/revo/server/public/offense/${reg_no}`,
-                    data => {
+                  $(`#${reg_no}`).html("<div uk-spinner></div>")
+                  $.ajax({
+                    method: "GET",
+                    url: `http://localhost:8080/revo/server/public/offense/${reg_no}`,
+                    cache: false,
+                    success: (data) => {
+                      $(`#${reg_no}`).html("Book Student")
                       var data = JSON.parse(data);
                       var offenseOutput = `
                         <div class="uk-modal-dialog">
                           <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
                           <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid uk-overflow-auto>
-                            <div class="uk-background-cover" uk-height-viewport>
+                            <div class="uk-background-cover" uk-height-viewport uk-overflow-auto>
                               <div class="uk-card-default card__hover uk-card-body">
                                 <div class="avatar__wrapper uk-flex-center">
                                   <img src="../img/avatar-gold.png" alt="" />
@@ -153,12 +180,10 @@ $(() => {
                             <div class="user__info uk-flex-center" uk-grid>
                               <div class="user__data">
                               <strong>${key}</strong>
-                                <span uk-icon="icon: user" id="details__text"></span>
                                 <span class="" id="details__text">OFFENSE:</span>
                                 <span> ${offense}</span>
                               </div>
                               <div class="user__data">
-                                <span uk-icon="icon: database" id="details__text"></span>
                                 <span id="details__text">PUNISHMENT:</span>
                                 <span>${
                                   punishment == ""
@@ -167,12 +192,16 @@ $(() => {
                                 }</span>
                               </div>
                               <div class="user__data">
-                                <span uk-icon="icon: database" id="details__text"></span>
+                                <span uk-icon="icon: list" id="details__text"></span>
                                 <span id="details__text">CATEGORY:</span>${category}
                               </div>
                               <div class="user__data">
-                                <span uk-icon="icon: database" id="details__text"></span>
-                                <span id="details__text">STATUS:</span>${status}
+                                <span uk-icon="icon: bolt" id="details__text"></span>
+                                <span id="details__text">STATUS:</span><span title="It hasn't been processed" uk-tooltip>${status}</span>
+                              </div>
+                              <div class="user__data">
+                                <span uk-icon="icon: calendar" id="details__text"></span>
+                                <span id="details__text">DATE:</span><span title="${timeago(created)}" uk-tooltip>${dateConvert(created)}</span>
                               </div>
                             </div>
                           `;
@@ -182,44 +211,98 @@ $(() => {
                         </div>
                       </div>
                       <div class="uk-padding-large">
-                        <h2 class="uk-heading-divider ">OFFENCE FORM...</h2>
-                        <form>
+                      <span>
+                        <h2 class="uk-heading-divider" style="color:#fff">OFFENCE FORM...</h2>
                           <div class="uk-margin">
                             <div class="uk-inline uk-width-1-1">
-                              <span
-                                class="uk-form-icon uk-form-icon-flip"
-                                uk-icon="icon: user"
-                              ></span>
-                              <input
-                                class="uk-input"
-                                type="text"
-                                placeholder="Enter Username"
-                              />
+                              <label class="uk-form-label" for="newOffense" style="color:#fff">Offenses</label>
+                              <div class="uk-form-controls">
+                                <select class="uk-select uk-form-width-large" id="newOffense">
+                                  <option value="">Select type of Offense</option>
+                                  <option value="Pairing">Pairing</option>
+                                  <option value="Stealing">Stealing</option>
+                                  <option value="Drug Abuse">Drug Abuse</option>
+                                  <option value="Chapel Voliation">Chapel Voliation</option>
+                                  <option value="Dress Code Voliation">Dress Code Voliation</option>
+                                </select>
+                              </div>
                             </div>
                           </div>
   
                           <div class="uk-margin ">
                             <div class="uk-inline uk-width-1-1">
-                              <span
-                                class="uk-form-icon uk-form-icon-flip"
-                                uk-icon="icon: lock"
-                              ></span>
-                              <input
-                                class="uk-input"
-                                type="text"
-                                placeholder="Enter Password"
-                              />
+                              <label class="uk-form-label" for="newCategory" style="color:#fff">Category</label>
+                              <div class="uk-form-controls">
+                                <select class="uk-select uk-form-width-large" id="newCategory">
+                                  <option value="">Select Category</option>
+                                  <option value="A">A</option>
+                                  <option value="B">B</option>
+                                  <option value="C">C</option>
+                                  <option value="D">D</option>
+                                </select>
+                              </div>
                             </div>
                           </div>
-                          <button class="uk-button uk-button-danger rounded">
+                          <button class="uk-button uk-button-danger rounded" id="bookStudent">
                             Submit Form
                           </button>
-                        </form>
+                          </span>
                       </div>
                       `;
                       $("#book__now").html(offenseOutput);
+                      $("#bookStudent").click(() => {
+                        var newOffense = $("#newOffense").val()
+                        var newCategory = $("#newCategory").val()
+                        if (newCategory !== "" && newOffense !== "") {
+                          UIkit.modal.confirm(`Are you sure you want to book ${name}?`).then(() => {
+                            $(`#${reg_no}`).html("<div uk-spinner></div>")
+                            $.ajax({
+                              method: "POST",
+                              url: "http://localhost:8080/revo/server/public/book",
+                              data: {
+                                reg_no: reg_no,
+                                offense: newOffense,
+                                category: newCategory
+                              },
+                              cache: false,
+                              success: (result) => {
+                                result = JSON.parse(result);
+                                $(`#${reg_no}`).html("Book Student")
+                                if (result.error) {
+                                  UIkit.modal.alert(result.error.err_text)
+                                } else {
+                                  UIkit.modal.alert(`${name} has been booked successfully`)
+                                }
+                              },
+                              error: () => {
+                                $(`#${reg_no}`).html("Book Student")
+                                UIkit.modal.alert("Couldn't connect to server")
+                              }
+                            })
+                          }, () => {
+                            $(`#${reg_no}`).html("Book Student")
+                          });
+                        } else {
+                          UIkit.notification({
+                            message: "All Fields Required!",
+                            status: "danger",
+                            pos: "top-center",
+                            timeout: 5000
+                          });
+                          $("#bookStudent").addClass("uk-animation-shake")
+                        }
+                      })
+                    },
+                    error: () => {
+                      $(`#${reg_no}`).html("Book Student")
+                      UIkit.notification({
+                        message: "Sorry we couldn't connect to server",
+                        status: "warning",
+                        pos: "top-right",
+                        timeout: 5000
+                      });
                     }
-                  );
+                  })
                 });
               });
               $("#student__info").html(finalResult);
@@ -227,6 +310,7 @@ $(() => {
           },
           error: () => {
             $("#loading").hide();
+            $("#student__info").show();
             UIkit.notification({
               message: "Sorry we couldn't connect to server",
               status: "warning",
@@ -237,116 +321,7 @@ $(() => {
         });
       }
     } else {
-      $("#student__info").html(`
-      <div>
-      <div
-        class="uk-card uk-card-default uk-card-hover uk-card-body card__user"
-      >
-        <h3 class="uk-card-title">
-          <img src="../img/avatar-gold.png" alt="" />
-        </h3>
-        <p>
-          <span uk-icon="icon: user" id="details__text"></span> USERNAME:
-          <span>John Doe</span>
-        </p>
-        <p>
-          <span uk-icon="icon: database" id="details__text"></span> Matric
-          No: <span>15AC009899</span>
-        </p>
-        <p>
-          <span uk-icon="icon: database" id="details__text"></span> Reg No:
-          <span>1500324</span>
-        </p>
-        <button
-          class="uk-button uk-button-danger rounded"
-          uk-toggle="target: #book__now"
-        >
-          Book Student
-        </button>
-      </div>
-    </div>
-      <div>
-      <div
-        class="uk-card uk-card-default uk-card-hover uk-card-body card__user"
-      >
-        <h3 class="uk-card-title">
-          <img src="../img/avatar-gold.png" alt="" />
-        </h3>
-        <p>
-          <span uk-icon="icon: user" id="details__text"></span> USERNAME:
-          <span>John Doe</span>
-        </p>
-        <p>
-          <span uk-icon="icon: database" id="details__text"></span> Matric
-          No: <span>15AC009899</span>
-        </p>
-        <p>
-          <span uk-icon="icon: database" id="details__text"></span> Reg No:
-          <span>1500324</span>
-        </p>
-        <button
-          class="uk-button uk-button-danger rounded"
-          uk-toggle="target: #book__now"
-        >
-          Book Student
-        </button>
-      </div>
-    </div>
-      <div>
-      <div
-        class="uk-card uk-card-default uk-card-hover uk-card-body card__user"
-      >
-        <h3 class="uk-card-title">
-          <img src="../img/avatar-gold.png" alt="" />
-        </h3>
-        <p>
-          <span uk-icon="icon: user" id="details__text"></span> USERNAME:
-          <span>John Doe</span>
-        </p>
-        <p>
-          <span uk-icon="icon: database" id="details__text"></span> Matric
-          No: <span>15AC009899</span>
-        </p>
-        <p>
-          <span uk-icon="icon: database" id="details__text"></span> Reg No:
-          <span>1500324</span>
-        </p>
-        <button
-          class="uk-button uk-button-danger rounded"
-          uk-toggle="target: #book__now"
-        >
-          Book Student
-        </button>
-      </div>
-    </div>
-      <div>
-      <div
-        class="uk-card uk-card-default uk-card-hover uk-card-body card__user"
-      >
-        <h3 class="uk-card-title">
-          <img src="../img/avatar-gold.png" alt="" />
-        </h3>
-        <p>
-          <span uk-icon="icon: user" id="details__text"></span> USERNAME:
-          <span>John Doe</span>
-        </p>
-        <p>
-          <span uk-icon="icon: database" id="details__text"></span> Matric
-          No: <span>15AC009899</span>
-        </p>
-        <p>
-          <span uk-icon="icon: database" id="details__text"></span> Reg No:
-          <span>1500324</span>
-        </p>
-        <button
-          class="uk-button uk-button-danger rounded"
-          uk-toggle="target: #book__now"
-        >
-          Book Student
-        </button>
-      </div>
-    </div>
-    `);
+      $("#student__info").show();
     }
   });
 });
