@@ -1,250 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Revolutionary Squad</title>
-    <link rel="stylesheet" href="../css/style.css" />
-    <link rel="stylesheet" href="../css/uikit.min.css" />
-  </head>
-  <body>
-    <nav class="uk-navbar-container nav__booking" uk-navbar>
-      <div class="uk-navbar-center">
-        <ul class="uk-navbar-nav">
-          <li class="uk-active "><a href="index.html">LOGO</a></li>
-        </ul>
-      </div>
-    </nav>
-    <section id="search__section">
-      <div class="searchbar__wrapper">
-        <div
-          class="uk-card uk-card-hover uk-card-default uk-card-body card__search "
-        >
-          <h3 class="uk-card-title uk-flex-center">Search Students</h3>
-          <div class="uk-flex-center">
-            <form class="uk-search uk-search-large">
-              <span class="uk-search-icon-flip " uk-search-icon></span>
-              <input
-                class="uk-search-input"
-                type="search"
-                placeholder="Search..."
-              />
-            </form>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <title>Revolutionary Squad</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/uikit.min.css" />
+</head>
+
+<body>
+  <nav class="uk-navbar-container nav__booking" uk-navbar>
+    <div class="uk-navbar-center">
+      <ul class="uk-navbar-nav">
+        <li class="uk-active "><a href="index.html">LOGO</a></li>
+      </ul>
+    </div>
+    <div class="uk-navbar-right">
+      <ul class="uk-navbar-nav">
+        <li><a href="#">Logout</a></li>
+      </ul>
+    </div>
+  </nav>
+  <section id="search__section">
+    <div class="searchbar__wrapper">
+      <div class="uk-card uk-card-hover uk-card-default uk-card-body card__search ">
+        <h3 class="uk-card-title uk-flex-center">Search Students</h3>
+        <div class="uk-flex-center">
+          <div class="uk-search uk-search-large">
+            <span class="uk-search-icon-flip " uk-search-icon></span>
+            <input class="uk-search-input" type="search" placeholder="Search..." id="search" maxlength="7" />
           </div>
         </div>
       </div>
-
-      <!-- STUDENTS INFORMATION -->
-      <div
-        class="uk-child-width-expand@s uk-text-center uk-grid-small student__info"
-        uk-grid
-      >
-        <div>
-          <div
-            class="uk-card uk-card-default uk-card-hover uk-card-body card__user"
-          >
-            <h3 class="uk-card-title">
-              <img src="../img/avatar-gold.png" alt="" />
-            </h3>
-            <p>
-              <span uk-icon="icon: user" id="details__text"></span> USERNAME:
-              <span>John Doe</span>
-            </p>
-            <p>
-              <span uk-icon="icon: database" id="details__text"></span> Matric
-              No: <span>15AC009899</span>
-            </p>
-            <p>
-              <span uk-icon="icon: database" id="details__text"></span> Reg No:
-              <span>1500324</span>
-            </p>
-            <button
-              class="uk-button uk-button-danger rounded"
-              uk-toggle="target: #book__now"
-            >
-              Book Student
-            </button>
-          </div>
-        </div>
-        <div>
-          <div
-            class="uk-card uk-card-default uk-card-hover uk-card-body card__user"
-          >
-            <h3 class="uk-card-title">
-              <img src="../img/avatar-gold.png" alt="" />
-            </h3>
-            <p>
-              <span uk-icon="icon: user" id="details__text"></span> USERNAME:
-              <span> John Doe</span>
-            </p>
-            <p>
-              <span uk-icon="icon: database" id="details__text"></span> Matric
-              No: <span> 15AC009899</span>
-            </p>
-            <p>
-              <span uk-icon="icon: database" id="details__text"></span> Reg No:
-              <span> 1500324</span>
-            </p>
-            <button
-              class="uk-button uk-button-danger rounded"
-              uk-toggle="target: #book__now"
-            >
-              Book Student
-            </button>
-          </div>
-        </div>
-        <div>
-          <div
-            class="uk-card uk-card-default uk-card-hover uk-card-body card__user"
-          >
-            <h3 class="uk-card-title">
-              <img src="../img/avatar-gold.png" alt="" />
-            </h3>
-            <p>
-              <span uk-icon="icon: user" id="details__text"></span> USERNAME:
-              <span> John Doe</span>
-            </p>
-            <p>
-              <span uk-icon="icon: database" id="details__text"></span> Matric
-              No: <span> 15AC009899</span>
-            </p>
-            <p>
-              <span uk-icon="icon: database" id="details__text"></span> Reg No:
-              <span> 1500324</span>
-            </p>
-
-            <button
-              class="uk-button uk-button-danger rounded"
-              uk-toggle="target: #book__now"
-            >
-              Book Student
-            </button>
-          </div>
+    </div>
+    <!-- STUDENTS INFORMATION -->
+    <span id="loading">
+      <center>
+        <div uk-spinner="ratio: 3"></div>
+      </center>
+    </span>
+    <div class="uk-child-width-1-2@s uk-child-width-1-4@l uk-grid-match uk-text-center uk-grid-small student__info"
+      uk-grid id="student__info">
+      <div>
+        <div class="uk-card uk-card-default uk-card-hover uk-card-body card__user">
+          <h3 class="uk-card-title">
+            <img src="../img/avatar-gold.png" alt="" />
+          </h3>
+          <p>
+            <span uk-icon="icon: user" id="details__text"></span> USERNAME:
+            <span>John Doe</span>
+          </p>
+          <p>
+            <span uk-icon="icon: database" id="details__text"></span> Matric
+            No: <span>15AC009899</span>
+          </p>
+          <p>
+            <span uk-icon="icon: database" id="details__text"></span> Reg No:
+            <span>1500324</span>
+          </p>
+          <button class="uk-button uk-button-danger rounded" uk-toggle="target: #book__now">
+            Book Student
+          </button>
         </div>
       </div>
-      <!-- STUDENTS INFORMATION -->
-
-      <!-- STUDENT BOOKING MODAL PAGE -->
-      <div id="book__now" class="uk-modal-full" uk-modal>
-        <div class="uk-modal-dialog">
-          <button
-            class="uk-modal-close-full uk-close-large"
-            type="button"
-            uk-close
-          ></button>
-          <div
-            class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle"
-            uk-grid
-            uk-overflow-auto
-          >
-            <div class="uk-background-cover" uk-height-viewport>
-              <div class="uk-card-default card__hover uk-card-body">
-                <div class="avatar__wrapper uk-flex-center">
-                  <img src="../img/avatar-gold.png" alt="" />
-                </div>
-                <header>
-                  <div class="">
-                    <h1 class="uk-flex-center uk-heading-bullet">
-                      <span uk-icon="icon: user" id="details__text"></span>
-                      Student's Bio Data.
-                    </h1>
-                    <hr id="custom__divider" />
-                  </div>
-                </header>
-                <div class="user__info uk-flex-center" uk-grid>
-                  <div class="user__data">
-                    <span uk-icon="icon: user" id="details__text"></span>
-                    <span class="" id="details__text">FULL NAME:</span>
-                    <span> John Doe</span>
-                  </div>
-                  <div class="user__data">
-                    <span uk-icon="icon: database" id="details__text"></span>
-                    <span id="details__text">MATRIC NO:</span>
-                    <span>15AE009943</span>
-                  </div>
-                  <div class="user__data">
-                    <span uk-icon="icon: database" id="details__text"></span>
-                    <span id="details__text">REG NO:</span> 15004327
-                  </div>
-                  <div class="user__data">
-                    <span uk-icon="icon: database" id="details__text"></span>
-                    <span id="details__text">HALL OF RESIDENCE:</span> ABRAHAM
-                  </div>
-                </div>
-
-                <header id="offence__header">
-                  <div class="">
-                    <h1 class="uk-flex-center uk-heading-bullet">
-                      <span uk-icon="icon: user" id="details__text"></span>
-                      Student's Offences.
-                    </h1>
-                    <hr id="custom__divider" />
-                  </div>
-                </header>
-                <div class="user__info uk-flex-center" uk-grid>
-                  <div class="user__data">
-                    <span uk-icon="icon: user" id="details__text"></span>
-                    <span class="" id="details__text">FULL NAME:</span>
-                    <span> John Doe</span>
-                  </div>
-                  <div class="user__data">
-                    <span uk-icon="icon: database" id="details__text"></span>
-                    <span id="details__text">MATRIC NO:</span>
-                    <span>15AE009943</span>
-                  </div>
-                  <div class="user__data">
-                    <span uk-icon="icon: database" id="details__text"></span>
-                    <span id="details__text">REG NO:</span> 15004327
-                  </div>
-                  <div class="user__data">
-                    <span uk-icon="icon: database" id="details__text"></span>
-                    <span id="details__text">HALL OF RESIDENCE:</span> ABRAHAM
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="uk-padding-large">
-              <h2 class="uk-heading-divider ">OFFENCE FORM...</h2>
-              <form>
-                <div class="uk-margin">
-                  <div class="uk-inline uk-width-1-1">
-                    <span
-                      class="uk-form-icon uk-form-icon-flip"
-                      uk-icon="icon: user"
-                    ></span>
-                    <input
-                      class="uk-input"
-                      type="text"
-                      placeholder="Enter Username"
-                    />
-                  </div>
-                </div>
-
-                <div class="uk-margin ">
-                  <div class="uk-inline uk-width-1-1">
-                    <span
-                      class="uk-form-icon uk-form-icon-flip"
-                      uk-icon="icon: lock"
-                    ></span>
-                    <input
-                      class="uk-input"
-                      type="text"
-                      placeholder="Enter Password"
-                    />
-                  </div>
-                </div>
-                <button class="uk-button uk-button-danger rounded">
-                  Submit Form
-                </button>
-              </form>
-            </div>
-          </div>
+      <div>
+        <div class="uk-card uk-card-default uk-card-hover uk-card-body card__user">
+          <h3 class="uk-card-title">
+            <img src="../img/avatar-gold.png" alt="" />
+          </h3>
+          <p>
+            <span uk-icon="icon: user" id="details__text"></span> USERNAME:
+            <span>John Doe</span>
+          </p>
+          <p>
+            <span uk-icon="icon: database" id="details__text"></span> Matric
+            No: <span>15AC009899</span>
+          </p>
+          <p>
+            <span uk-icon="icon: database" id="details__text"></span> Reg No:
+            <span>1500324</span>
+          </p>
+          <button class="uk-button uk-button-danger rounded" uk-toggle="target: #book__now">
+            Book Student
+          </button>
         </div>
       </div>
-      <!-- STUDENT BOOKING MODAL PAGE -->
-    </section>
-    <script src="../js/uikit.min.js"></script>
-    <script src="../js/uikit-icons.min.js"></script>
-  </body>
+      <div>
+        <div class="uk-card uk-card-default uk-card-hover uk-card-body card__user">
+          <h3 class="uk-card-title">
+            <img src="../img/avatar-gold.png" alt="" />
+          </h3>
+          <p>
+            <span uk-icon="icon: user" id="details__text"></span> USERNAME:
+            <span> John Doe</span>
+          </p>
+          <p>
+            <span uk-icon="icon: database" id="details__text"></span> Matric
+            No: <span> 15AC009899</span>
+          </p>
+          <p>
+            <span uk-icon="icon: database" id="details__text"></span> Reg No:
+            <span> 1500324</span>
+          </p>
+          <button class="uk-button uk-button-danger rounded" uk-toggle="target: #book__now">
+            Book Student
+          </button>
+        </div>
+      </div>
+      <div>
+        <div class="uk-card uk-card-default uk-card-hover uk-card-body card__user">
+          <h3 class="uk-card-title">
+            <img src="../img/avatar-gold.png" alt="" />
+          </h3>
+          <p>
+            <span uk-icon="icon: user" id="details__text"></span> USERNAME:
+            <span> John Doe</span>
+          </p>
+          <p>
+            <span uk-icon="icon: database" id="details__text"></span> Matric
+            No: <span> 15AC009899</span>
+          </p>
+          <p>
+            <span uk-icon="icon: database" id="details__text"></span> Reg No:
+            <span> 1500324</span>
+          </p>
+
+          <button class="uk-button uk-button-danger rounded" uk-toggle="target: #book__now">
+            Book Student
+          </button>
+        </div>
+      </div>
+    </div>
+    <!-- STUDENTS INFORMATION -->
+
+    <!-- STUDENT BOOKING MODAL PAGE -->
+    <div id="book__now" class="uk-modal-full" uk-modal></div>
+    <!-- STUDENT BOOKING MODAL PAGE -->
+  </section>
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/uikit.min.js"></script>
+  <script src="../js/uikit-icons.min.js"></script>
+  <script src="../js/booking.js"></script>
+</body>
+
 </html>
