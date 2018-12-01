@@ -1,21 +1,36 @@
 function dateConvert(date) {
-  var date_new = new Date(date).toLocaleString()
+  var date_new = new Date(date).toLocaleString();
   return date_new;
+}
+
+for (var i = 1; i <= 50; i++) {
+  var n = "revo";
+  var num = 0;
+  var fin = n + num + i;
+  console.log(fin);
 }
 
 function timeago(date) {
   var seconds = Math.floor((new Date() - new Date(date)) / 1000);
-  if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 2) return Math.round(seconds / (60 * 60 * 24 * 365.25)) + " years ago";
-  else if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 1) return "1 year ago";
-  else if (Math.round(seconds / (60 * 60 * 24 * 30.4)) >= 2) return Math.round(seconds / (60 * 60 * 24 * 30.4)) + " months ago";
-  else if (Math.round(seconds / (60 * 60 * 24 * 30.4)) >= 1) return "1 month ago";
-  else if (Math.round(seconds / (60 * 60 * 24 * 7)) >= 2) return Math.round(seconds / (60 * 60 * 24 * 7)) + " weeks ago";
+  if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 2)
+    return Math.round(seconds / (60 * 60 * 24 * 365.25)) + " years ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 1)
+    return "1 year ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 30.4)) >= 2)
+    return Math.round(seconds / (60 * 60 * 24 * 30.4)) + " months ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 30.4)) >= 1)
+    return "1 month ago";
+  else if (Math.round(seconds / (60 * 60 * 24 * 7)) >= 2)
+    return Math.round(seconds / (60 * 60 * 24 * 7)) + " weeks ago";
   else if (Math.round(seconds / (60 * 60 * 24 * 7)) >= 1) return "1 week ago";
-  else if (Math.round(seconds / (60 * 60 * 24)) >= 2) return Math.round(seconds / (60 * 60 * 24)) + " days ago";
+  else if (Math.round(seconds / (60 * 60 * 24)) >= 2)
+    return Math.round(seconds / (60 * 60 * 24)) + " days ago";
   else if (Math.round(seconds / (60 * 60 * 24)) >= 1) return "1 day ago";
-  else if (Math.round(seconds / (60 * 60)) >= 2) return Math.round(seconds / (60 * 60)) + " hours ago";
+  else if (Math.round(seconds / (60 * 60)) >= 2)
+    return Math.round(seconds / (60 * 60)) + " hours ago";
   else if (Math.round(seconds / (60 * 60)) >= 1) return "1 hour ago";
-  else if (Math.round(seconds / 60) >= 2) return Math.round(seconds / 60) + " minutes ago";
+  else if (Math.round(seconds / 60) >= 2)
+    return Math.round(seconds / 60) + " minutes ago";
   else if (Math.round(seconds / 60) >= 1) return "1 minute ago";
   else if (seconds >= 2) return seconds + " seconds ago";
   else return seconds + "1 second ago";
@@ -35,7 +50,7 @@ $(() => {
           cache: false,
           success: response => {
             $("#loading").hide();
-            $("#student__info").show()
+            $("#student__info").show();
             var searchResult = JSON.parse(response);
             var finalResult = "";
             if (searchResult.error) {
@@ -96,13 +111,13 @@ $(() => {
                 `;
                 $(document).on("click", `#${reg_no}`, e => {
                   e.preventDefault();
-                  $(`#${reg_no}`).html("<div uk-spinner></div>")
+                  $(`#${reg_no}`).html("<div uk-spinner></div>");
                   $.ajax({
                     method: "GET",
                     url: `http://localhost:8080/revo/server/public/offense/${reg_no}`,
                     cache: false,
-                    success: (data) => {
-                      $(`#${reg_no}`).html("Book Student")
+                    success: data => {
+                      $(`#${reg_no}`).html("Book Student");
                       var data = JSON.parse(data);
                       var offenseOutput = `
                         <div class="uk-modal-dialog">
@@ -201,7 +216,9 @@ $(() => {
                               </div>
                               <div class="user__data">
                                 <span uk-icon="icon: calendar" id="details__text"></span>
-                                <span id="details__text">DATE:</span><span title="${timeago(created)}" uk-tooltip>${dateConvert(created)}</span>
+                                <span id="details__text">DATE:</span><span title="${timeago(
+                                  created
+                                )}" uk-tooltip>${dateConvert(created)}</span>
                               </div>
                             </div>
                           `;
@@ -251,37 +268,47 @@ $(() => {
                       `;
                       $("#book__now").html(offenseOutput);
                       $("#bookStudent").click(() => {
-                        var newOffense = $("#newOffense").val()
-                        var newCategory = $("#newCategory").val()
+                        var newOffense = $("#newOffense").val();
+                        var newCategory = $("#newCategory").val();
                         if (newCategory !== "" && newOffense !== "") {
-                          UIkit.modal.confirm(`Are you sure you want to book ${name}?`).then(() => {
-                            $(`#${reg_no}`).html("<div uk-spinner></div>")
-                            $.ajax({
-                              method: "POST",
-                              url: "http://localhost:8080/revo/server/public/book",
-                              data: {
-                                reg_no: reg_no,
-                                offense: newOffense,
-                                category: newCategory
+                          UIkit.modal
+                            .confirm(`Are you sure you want to book ${name}?`)
+                            .then(
+                              () => {
+                                $(`#${reg_no}`).html("<div uk-spinner></div>");
+                                $.ajax({
+                                  method: "POST",
+                                  url:
+                                    "http://localhost:8080/revo/server/public/book",
+                                  data: {
+                                    reg_no: reg_no,
+                                    offense: newOffense,
+                                    category: newCategory
+                                  },
+                                  cache: false,
+                                  success: result => {
+                                    result = JSON.parse(result);
+                                    $(`#${reg_no}`).html("Book Student");
+                                    if (result.error) {
+                                      UIkit.modal.alert(result.error.err_text);
+                                    } else {
+                                      UIkit.modal.alert(
+                                        `${name} has been booked successfully`
+                                      );
+                                    }
+                                  },
+                                  error: () => {
+                                    $(`#${reg_no}`).html("Book Student");
+                                    UIkit.modal.alert(
+                                      "Couldn't connect to server"
+                                    );
+                                  }
+                                });
                               },
-                              cache: false,
-                              success: (result) => {
-                                result = JSON.parse(result);
-                                $(`#${reg_no}`).html("Book Student")
-                                if (result.error) {
-                                  UIkit.modal.alert(result.error.err_text)
-                                } else {
-                                  UIkit.modal.alert(`${name} has been booked successfully`)
-                                }
-                              },
-                              error: () => {
-                                $(`#${reg_no}`).html("Book Student")
-                                UIkit.modal.alert("Couldn't connect to server")
+                              () => {
+                                $(`#${reg_no}`).html("Book Student");
                               }
-                            })
-                          }, () => {
-                            $(`#${reg_no}`).html("Book Student")
-                          });
+                            );
                         } else {
                           UIkit.notification({
                             message: "All Fields Required!",
@@ -289,12 +316,12 @@ $(() => {
                             pos: "top-center",
                             timeout: 5000
                           });
-                          $("#bookStudent").addClass("uk-animation-shake")
+                          $("#bookStudent").addClass("uk-animation-shake");
                         }
-                      })
+                      });
                     },
                     error: () => {
-                      $(`#${reg_no}`).html("Book Student")
+                      $(`#${reg_no}`).html("Book Student");
                       UIkit.notification({
                         message: "Sorry we couldn't connect to server",
                         status: "warning",
@@ -302,7 +329,7 @@ $(() => {
                         timeout: 5000
                       });
                     }
-                  })
+                  });
                 });
               });
               $("#student__info").html(finalResult);
