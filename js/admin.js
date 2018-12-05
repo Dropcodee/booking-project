@@ -1,6 +1,7 @@
+$(document).ready(function() {
 $(function() {
   function sidebarToggle(toogle) {
-    var sidebar = $("#sidebar");
+    let sidebar = $("#sidebar");
     var padder = $(".content-padder");
     if (toogle) {
       sidebar.css({ display: "block", x: -300 });
@@ -12,7 +13,7 @@ $(function() {
       }
     } else {
       sidebar.css({ display: "block", x: "0px" });
-      sidebar.transition({ x: -300, opacity: 0 }, 250, "in-out", function() {
+      sidebar.transition({ x: -300, opacity: 0 }, 250, "in-out", () => {
         sidebar.css("display", "none");
       });
       padder.transition({ marginLeft: 0 }, 250, "in-out");
@@ -106,3 +107,4 @@ $(function() {
     options: options
   });
 });
+})
