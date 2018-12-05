@@ -97,9 +97,9 @@ body,html
     letter-spacing: .1em
     color: $material__green !important
 #custom__divider
-  width: 30%
+  width: 15%
   height: 10%
-  padding: .04em
+  padding: .06em
   border: 0
   background: $material__green
   margin: 1em auto
@@ -120,93 +120,37 @@ body,html
   color: $material__green
 
 /* ADMIN PANEL */
-
-.uk-navbar-container 
-  background-color: #1e87f0 !important
-
-
-.header 
-  box-sizing: border-box
-  border-bottom: 1px #e5e5e5 solid
-
-.content-padder 
-  margin-left: 0px
-
-.content-background 
-  min-height: calc(100% - 80px)
-  background-color: #F0F0F0
-
-.statistics-text 
-  font-size: 25px
-
-.statistics-number 
-  font-size: 50px
-.tm-sidebar-left 
-  position: fixed
-  z-index: 100
-  top: 80px
-  bottom: 0
-  box-sizing: border-box
-  width: 240px !important
-  padding: 40px 40px 60px 40px
-  border-right: 1px #e5e5e5 solid
-  overflow-y: auto
-  overflow-x: hidden
-
-.tm-sidebar-left::-webkit-scrollbar-track 
-  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3)
-  background-color: #F5F5F5
-
-
-.tm-sidebar-left::-webkit-scrollbar 
-  width: 6px
-  background-color: #F5F5F5
-
-
-.tm-sidebar-left::-webkit-scrollbar-thumb 
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3)
-    background-color: #bdbdbd
-
-
-.tm-sidebar-right 
-  position: absolute
-  top: 0
-  left: calc(100% + 0px)
-  width: 200px
-
-@media(max-width: 960px) 
-  .tm-sidebar-left 
-    opacity: 0
-    
-
-
-@media (min-width: 960px) 
-  .content-padder 
-    margin-left: 240px
-    
-
-@media (min-width: 1200px) 
-  .tm-sidebar-right 
-    left: calc(100% + 0px)
-    
-  .tm-sidebar-left+.tm-main 
-    padding-left: 40px
-    opacity: 0 !important
-@media (min-width: 1400px) 
-  .tm-sidebar-left 
-    width: 300px !important
-    padding: 45px 45px 60px 45px
-    
-  .tm-sidebar-right 
-    left: calc(100% + 60px)
-    
-  .tm-sidebar-left+.tm-main 
-    padding-left: 40px
-    
-  .content-padder 
-    margin-left: 300px
-
-
+.users__section
+  margin: 10em auto
+.admin__header
+  span
+    font-weight: 300 !important
+#icon__success
+  color: $material__green
+#icon__danger
+  color: $material__red
+.container__fluid
+  padding: 0 3em !important
+  margin-top: 2em !important
+.avatar
+  margin: 1em !important
+.lmu__btn__delete
+  background: $material__red !important
+  color: $material__white !important
+.lmu__btn__success
+  background: $material__green !important
+  color: $material__white !important
+.new__section
+  margin: 5em auto
+.uk-width-large
+  width: 550px !important
+.card__avatar
+  margin: .5em 0 1em 0
+.uk-margin
+  input:focus
+    border: 1px solid $material__green !important
+.lmu__footer
+  background: #171a1b !important
 /* ADMIN PANEL */
 @media (min-width: $breakpoint__mobile__iphone)
   .card__search
