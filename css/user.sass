@@ -81,13 +81,18 @@ html
         text-decoration: none
         margin: 0 8px
         color: #B0B0B0
-.card__details
+.card__details, .offence__card
     border-radius: 35px !important
     background: #A1FFCE !important
     background: -webkit-linear-gradient(to right, rgba(191, 218, 114, 0.42), rgba(42, 146, 92, 0.38)) !important
     background: linear-gradient(to right, rgba(191, 218, 114, 0.42), rgba(42, 146, 92, 0.38)) !important
     padding: 15px 20px !important
     margin: 1em auto !important
+.offence__card
+  background: #de3838e6
+  background: linear-gradient(to right, rgba(222, 56, 56, 0.9), rgba(209, 212, 59, 0.42)) !important
+  background: -webkit-linear-gradient(to right, rgba(222, 56, 56, 0.9), rgba(209, 212, 59, 0.42)) !important
+  color: #404040 !important
 .card__btn
     border-radius: 20px !important
     padding: .5rem 2rem !important 
@@ -114,4 +119,12 @@ html
   a
     float: right
     margin: 0 .5em
+.uk-section-dark
+  background: $material__black !important
+.revo__report
+  textarea
+    background: $material__black !important
+    &:focus
+      background: $material__black !important
+      color: $material__white !important
 /* OFFENCE DASHBOARD */

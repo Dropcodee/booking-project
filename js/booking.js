@@ -126,7 +126,7 @@ $(() => {
                             <div class="uk-background-cover" uk-height-viewport uk-overflow-auto>
                               <div class="uk-card-default card__hover uk-card-body">
                                 <div class="avatar__wrapper uk-flex-center">
-                                  <img src="../img/avatar-gold.png" alt="" />
+                                  <img src="../img/avatar.png" alt="" />
                                 </div>
                                 <header>
                                   <div class="">
@@ -240,6 +240,7 @@ $(() => {
                                   <option value="Stealing">Stealing</option>
                                   <option value="Drug Abuse">Drug Abuse</option>
                                   <option value="Chapel Voliation">Chapel Voliation</option>
+                                  <option value="Insubordination">Insubordination</option>
                                   <option value="Dress Code Voliation">Dress Code Voliation</option>
                                 </select>
                               </div>
@@ -260,8 +261,11 @@ $(() => {
                               </div>
                             </div>
                           </div>
-                          <button class="uk-button uk-button-danger rounded" id="bookStudent">
-                            Submit Form
+                          <div class="uk-margin">
+                              <textarea class="uk-textarea" rows="5" placeholder="Revolutionary Member Report on the offence" id="revo_report"></textarea>
+                          </div>
+                          <button class="uk-button rounded lmu__btn__success" id="bookStudent">
+                            Submit Form <span uk-icon="icon: check"></span>
                           </button>
                           </span>
                       </div>
