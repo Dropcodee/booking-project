@@ -12,7 +12,7 @@ loginBtn.addEventListener("click", event => {
       timeout: 5000
     });
   } else {
-    if (password.length > 8) {
+    if (password.length > 7) {
       if (username.length > 3) {
         $("input").attr("disabled", true);
         $("#btn_login")
@@ -44,7 +44,23 @@ loginBtn.addEventListener("click", event => {
                   </button>`
                 );
             } else {
-              window.location.href = "booking.html";
+              $("input").attr("disabled", false);
+              $("#btn_login")
+                .attr("disabled", false)
+                .html(
+                  `<button 
+                  class="uk-button uk-button-danger rounded" 
+                  uk-icon="icon: check" 
+                  id="btn_login">
+                    Login 
+                  </button>`
+                );
+              var time = new Date(data.time).getTime();
+              var expires = new Date().getTime() + time * 1000;
+              var token = data.token;
+              localStorage.setItem("token", token);
+              localStorage.setItem("expires", expires);
+              window.location.href = "booking.php";
             }
           },
           error: err => {
@@ -77,7 +93,7 @@ loginBtn.addEventListener("click", event => {
       }
     } else {
       UIkit.notification({
-        message: "  Password length must be more than 4 characters!",
+        message: "  Password length must be more than 7 characters!",
         status: "danger",
         pos: "top-center",
         timeout: 5000

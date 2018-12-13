@@ -13,6 +13,7 @@ $config = ['settings' => [
     'addContentLengthHeader' => false,
 ]];
 $app = new \Slim\App($config);
+
 require '../src/routes.php';
 
 // Run app
