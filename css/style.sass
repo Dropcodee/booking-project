@@ -2,6 +2,11 @@
 body,html
   padding: 0
   margin: 0
+#links
+  color: $material__gold
+  &:hover,&:focus
+    color: $material__green
+  
 #bodyImg
   background: url(../img/hero.jpg)
   background-attachment: fixed
@@ -134,12 +139,14 @@ body,html
   margin-top: 2em !important
 .avatar
   margin: 1em !important
+.lmu__btn__delete, .lmu__btn__success, .lmu__btn__gold
+  color: $material__white !important
 .lmu__btn__delete
   background: $material__red !important
-  color: $material__white !important
 .lmu__btn__success
   background: $material__green !important
-  color: $material__white !important
+.lmu__btn__gold
+  background: $material__gold !important
 .new__section
   margin: 5em auto
 .uk-width-large
@@ -152,6 +159,33 @@ body,html
 .lmu__footer
   background: #171a1b !important
 /* ADMIN PANEL */
+/* OFFENCE DASHBOARD*/
+.category__section
+  // text-align: center
+  #cat__A,#cat__B,#cat__C,#cat__D
+    transition: all 300ms ease-in-out
+    &:hover
+      transition: all 500ms ease-in-out
+  #cat__A:hover,.focus__text:focus
+    color: $material__green
+
+#title
+  float: left
+
+.uk-subnav-pill>.uk-active>a
+  background: $material__green !important
+/* OFFENCE DASHBOARD*/
 @media (min-width: $breakpoint__mobile__iphone)
   .card__search
     width: 90%
+  .container
+    #typed
+      font-size: 24px 
+  .typed-cursor
+    font-size: 24px
+@media (min-width: $breakpoint__tablet)
+  .container
+    #typed
+      font-size: 40px
+  .typed-cursor
+    font-size: 40px

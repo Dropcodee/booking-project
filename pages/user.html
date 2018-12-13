@@ -7,6 +7,7 @@
     <title>Document</title>
     <link rel="stylesheet" href="../css/user.css" />
     <link rel="stylesheet" href="../css/uikit.min.css" />
+    <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body>
     <section class="">
@@ -154,7 +155,9 @@
                     <a href="#offence-delete" uk-toggle
                       ><span uk-icon="icon: trash"></span
                     ></a>
-                    <a href=""><span uk-icon="icon: file-edit"></span> </a>
+                    <a href="#offence-process" uk-toggle
+                      ><span uk-icon="icon: file-edit"></span>
+                    </a>
                   </div>
                 </div>
                 <div>
@@ -164,7 +167,9 @@
                     Item<a href="#offence-delete" uk-toggle
                       ><span uk-icon="icon: trash"></span
                     ></a>
-                    <a href=""><span uk-icon="icon: file-edit"></span> </a>
+                    <a href="#offence-process" uk-toggle
+                      ><span uk-icon="icon: file-edit"></span>
+                    </a>
                   </div>
                 </div>
                 <div>
@@ -175,7 +180,9 @@
                     <a href="#offence-delete" uk-toggle
                       ><span uk-icon="icon: trash"></span
                     ></a>
-                    <a href=""><span uk-icon="icon: file-edit"></span> </a>
+                    <a href="#offence-process" uk-toggle
+                      ><span uk-icon="icon: file-edit"></span>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -196,21 +203,84 @@
 
     <!-- MODALS FOR BOTH DELETE OFFENCE OR PROCESS OFFENCES -->
 
+    <!-- MODAL FOR PROCESSING OFFENCE -->
+    <div id="offence-process" uk-modal>
+      <div class="uk-modal-dialog uk-modal-body">
+        <h2 class="uk-modal-title">PROCESS OFFENCE</h2>
+        <div class="uk-flex-center">
+          <section class="uk-section uk-section-dark section">
+            <p>MEMBER REPORT ON OFFENCE</p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel,
+              doloribus quidem autem odit mollitia magni, fuga rem libero,
+              laborum soluta vero pariatur eveniet facere voluptas repellat!
+              Quidem sint et nisi? Lorem ipsum, dolor sit amet consectetur
+              adipisicing elit. Nesciunt incidunt dicta, minima impedit tempore
+              officiis quibusdam, aliquid voluptas officia, laudantium quas
+              ullam quisquam quae reiciendis natus? Architecto quo doloribus
+              similique?
+            </p>
+          </section>
+          <section class="uk-section uk-section-dark">
+            <p>STUDENT REPORT ON OFFENCE</p>
+            <p>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Vel,
+              doloribus quidem autem odit mollitia magni, fuga rem libero,
+              laborum soluta vero pariatur eveniet facere voluptas repellat!
+              Quidem sint et nisi? Lorem ipsum, dolor sit amet consectetur
+              adipisicing elit. Nesciunt incidunt dicta, minima impedit tempore
+              officiis quibusdam, aliquid voluptas officia, laudantium quas
+              ullam quisquam quae reiciendis natus? Architecto quo doloribus
+              similique?
+            </p>
+          </section>
+          <div class="uk-margin revo__report">
+            <textarea
+              class="uk-textarea"
+              rows="5"
+              placeholder="Commander / Commandant's Report on the offence for final report"
+              id="commandant_report"
+            ></textarea>
+          </div>
+        </div>
+
+        <p class="uk-text-right">
+          <button
+            class="uk-button uk-button uk-modal-close lmu__btn__gold"
+            type="button"
+            uk-icon="icon: close"
+          >
+            Cancel
+          </button>
+          <a href="sdc.html">
+            <button
+              class="uk-button lmu__btn__success"
+              type="button"
+              uk-icon="icon: check"
+            >
+              Proceed
+            </button>
+          </a>
+        </p>
+      </div>
+    </div>
+    <!-- MODAL FOR PROCESSING OFFENCE -->
+
     <!-- MODAL FOR DELETEING OFFENCES -->
     <div id="offence-delete" uk-modal>
       <div class="uk-modal-dialog uk-modal-body">
         <h2 class="uk-modal-title">DELETE OFFENCE</h2>
-        <p>Hmmmm ARE YOU SURE YOU SHOULD BE DOING THIS !!!</p>
+        <p>ARE YOU SURE YOU SHOULD BE DOING THIS !!!</p>
         <p class="uk-text-right">
           <button
-            class="uk-button uk-button-default uk-modal-close"
+            class="uk-button uk-button uk-modal-close lmu__btn__gold"
             type="button"
-            uk-icon="icon: cancel"
+            uk-icon="icon: close"
           >
             Cancel
           </button>
           <button
-            class="uk-button uk-button lmu__btn__delete"
+            class="uk-button lmu__btn__success"
             type="button"
             uk-icon="icon: trash"
           >
