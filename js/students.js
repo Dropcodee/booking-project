@@ -1,4 +1,6 @@
-var reg_no = localStorage.getItem("reg_no");
+var reg_no = localStorage.getItem("reg_no"),
+  oId = localStorage.getItem("oId");
+if (oId != null) localStorage.removeItem("oId");
 if (reg_no) {
   axios
     .get(`http://localhost:8080/revo/server/public/students/${reg_no}`)
@@ -79,10 +81,14 @@ if (reg_no) {
               if (status == "Processed") {
                 proc = status;
                 processed += `
-                <div class="uk-card uk-card-default uk-card-body card__details">
+                <div class="uk-card uk-card-default uk-card-body card__details" style="cursor:pointer" id="processed__${id}">
                 <span title="${timeago(date)}" uk-tooltip>${offense}</span>
                 </div>
                 `;
+                $(document).on("click", `#processed__${id}`, () => {
+                  localStorage.setItem("oId", id);
+                  location.href = "sdc.php";
+                });
               } else if (status == "Pending") {
                 pend = status;
                 pending += `
@@ -95,74 +101,74 @@ if (reg_no) {
                 </div>
                 <!-- MODALS FOR BOTH DELETE OFFENCE OR PROCESS OFFENCES -->
 
-    <!-- MODAL FOR PROCESSING OFFENCE -->
-    <div id="offence-process_${id}" uk-modal>
-      <div class="uk-modal-dialog uk-modal-body">
-        <h2 class="uk-modal-title">PROCESS OFFENCE</h2>
-        <div class="uk-flex-center">
-            <section class="uk-section uk-section-dark section">
-              <p>MEMBER REPORT ON OFFENCE</p>
-              <p>
-                ${report}
-              </p>
-            </section>
-            <div class="uk-margin revo__report">
-              <textarea
-                class="uk-textarea"
-                rows="5"
-                placeholder="Commander / Commandant's Report on the offence for final report"
-                id="commander_report_${id}"
-              ></textarea>
-            </div>
-          </div>
-  
-          <p class="uk-text-right">
-            <button
-              class="uk-button uk-button uk-modal-close lmu__btn__gold"
-              type="button"
-              uk-icon="icon: close"
-            >
-              Cancel
-            </button>
-              <button
-                class="uk-button lmu__btn__success"
-                type="button"
-                uk-icon="icon: check"
-                id="update__offense__${id}"
-              >
-                Proceed
-              </button>
-          </p>
-      </div>
-    </div>
-    <!-- MODAL FOR PROCESSING OFFENCE -->
+                <!-- MODAL FOR PROCESSING OFFENCE -->
+                <div id="offence-process_${id}" uk-modal>
+                  <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title">PROCESS OFFENCE</h2>
+                    <div class="uk-flex-center">
+                        <section class="uk-section uk-section-dark section">
+                          <p>MEMBER REPORT ON OFFENCE</p>
+                          <p>
+                            ${report}
+                          </p>
+                        </section>
+                        <div class="uk-margin revo__report">
+                          <textarea
+                            class="uk-textarea"
+                            rows="5"
+                            placeholder="Commander / Commandant's Report on the offence for final report"
+                            id="commander_report_${id}"
+                          ></textarea>
+                        </div>
+                      </div>
 
-    <!-- MODAL FOR DELETEING OFFENCES -->
-    <div id="offence-delete_${id}" uk-modal>
-      <div class="uk-modal-dialog uk-modal-body">
-        <h2 class="uk-modal-title">DELETE OFFENCE</h2>
-        <p>ARE YOU SURE YOU SHOULD BE DOING THIS !!!</p>
-        <p class="uk-text-right">
-          <button
-            class="uk-button uk-button uk-modal-close lmu__btn__gold"
-            type="button"
-            uk-icon="icon: close"
-          >
-            Cancel
-          </button>
-          <button
-            class="uk-button lmu__btn__success"
-            type="button"
-            uk-icon="icon: trash"
-            id="delete__offense__${id}"
-          >
-            Delete
-          </button>
-        </p>
-      </div>
-    </div>
-    <!-- MODAL FOR DELETEING OFFENCES -->
-    <!-- MODALS FOR BOTH DELETE OFFENCE OR PROCESS OFFENCES -->
+                      <p class="uk-text-right">
+                        <button
+                          class="uk-button uk-button uk-modal-close lmu__btn__gold"
+                          type="button"
+                          uk-icon="icon: close"
+                        >
+                          Cancel
+                        </button>
+                          <button
+                            class="uk-button lmu__btn__success"
+                            type="button"
+                            uk-icon="icon: check"
+                            id="update__offense__${id}"
+                          >
+                            Proceed
+                          </button>
+                      </p>
+                  </div>
+                </div>
+                <!-- MODAL FOR PROCESSING OFFENCE -->
+
+                <!-- MODAL FOR DELETEING OFFENCES -->
+                <div id="offence-delete_${id}" uk-modal>
+                  <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title">DELETE OFFENCE</h2>
+                    <p>ARE YOU SURE YOU SHOULD BE DOING THIS !!!</p>
+                    <p class="uk-text-right">
+                      <button
+                        class="uk-button uk-button uk-modal-close lmu__btn__gold"
+                        type="button"
+                        uk-icon="icon: close"
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        class="uk-button lmu__btn__success"
+                        type="button"
+                        uk-icon="icon: trash"
+                        id="delete__offense__${id}"
+                      >
+                        Delete
+                      </button>
+                    </p>
+                  </div>
+                </div>
+                <!-- MODAL FOR DELETEING OFFENCES -->
+                <!-- MODALS FOR BOTH DELETE OFFENCE OR PROCESS OFFENCES -->
                 `;
 
                 // Offense Delete

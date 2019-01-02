@@ -220,7 +220,7 @@ $(() => {
   });
   // END OF CATEGORY C
 
-  // CATEGORY C
+  // CATEGORY D
   $("#d").on("click", e => {
     var href = $("#d").attr("href");
     axios
@@ -330,7 +330,7 @@ axios
                 room_no = student.room;
               outputA += `<tr id="${reg_no}" style="cursor:pointer">     
                   <td>${1 + id}</td>
-                  <td><img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" /></td>
+                  <td><img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" id="avatar__img"/></td>
                   <td>${name}</td>
                   <td>${reg_no}</td>
                   <td>${matric}</td>

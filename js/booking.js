@@ -150,6 +150,7 @@ $(() => {
                                 </div>
                                 <header>
                                   <div class="">
+                                  <a href="#" id="profile__${reg_no}">View Profile</a>
                                     <h1 class="uk-flex-center uk-heading-bullet">
                                       <span uk-icon="icon: user" id="details__text"></span>
                                       Student's Bio Data.
@@ -184,7 +185,17 @@ $(() => {
                                   </h1>
                                   <hr id="custom__divider" />
                                 </header>
-                      `;
+                        `;
+                        $(document).on("click", `#profile__${reg_no}`, () => {
+                          if (localStorage.getItem("reg_no") == null) {
+                            localStorage.setItem("reg_no", reg_no);
+                            location.href = "user.php";
+                          } else if (localStorage.getItem("reg_no") != null) {
+                            localStorage.removeItem("reg_no");
+                            localStorage.setItem("reg_no", reg_no);
+                            location.href = "user.php";
+                          }
+                        });
                         if (data.error) {
                           offenseOutput += `
                             <div class="user__info uk-flex-center" uk-grid>

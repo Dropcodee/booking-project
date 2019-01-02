@@ -168,6 +168,18 @@
     </script>
     <script src="../js/booking.js">
     </script>
+    <script>
+        $(document).on("click", "#logout", e => {
+            axios.get("http://localhost:8080/revo/server/public/logout")
+                .then((result) => {
+                    localStorage.clear()
+                    location.href = "index.php"
+                }).catch((err) => {
+                    localStorage.clear()
+                    location.href = "index.php"
+                });
+        })
+    </script>
 </body>
 
 </html>

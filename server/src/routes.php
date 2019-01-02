@@ -420,7 +420,7 @@ $app->put("/update_offense/{id}", function ($request, $response, $args) {
 $app->get("/booked/{category}", function ($request, $response, $args) {
     $category = $args["category"];
     // SQL Query to the database
-    $sql = "SELECT * FROM booking WHERE category = :category ORDER BY created DESC";
+    $sql = "SELECT * FROM booking WHERE category = :category AND status = 'Pending' ORDER BY created DESC";
 
     // Get Db Object
     $db = new Db();
