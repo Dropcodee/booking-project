@@ -3,13 +3,6 @@ function dateConvert(date) {
   return date_new;
 }
 
-for (var i = 1; i <= 50; i++) {
-  var n = "revo";
-  var num = 0;
-  var fin = n + num + i;
-  console.log(fin);
-}
-
 function timeago(date) {
   var seconds = Math.floor((new Date() - new Date(date)) / 1000);
   if (Math.round(seconds / (60 * 60 * 24 * 365.25)) >= 2)
@@ -42,19 +35,46 @@ $(() => {
     let search = $("#search").val();
     if (search !== "") {
       if (search.length > 2) {
-        $("#loading").show();
-        $("#student__info").hide();
-        $.ajax({
-          method: "GET",
-          url: `http://localhost:8080/revo/server/public/students/search/${search}`,
-          cache: false,
-          success: response => {
-            $("#loading").hide();
-            $("#student__info").show();
-            var searchResult = JSON.parse(response);
-            var finalResult = "";
-            if (searchResult.error) {
-              $("#student__info").html(`
+        if (
+          e.keyCode !== 13 &&
+          e.keyCode !== 16 &&
+          e.keyCode !== 17 &&
+          e.keyCode !== 18 &&
+          e.keyCode !== 20 &&
+          e.keyCode !== 33 &&
+          e.keyCode !== 34 &&
+          e.keyCode !== 35 &&
+          e.keyCode !== 36 &&
+          e.keyCode !== 37 &&
+          e.keyCode !== 38 &&
+          e.keyCode !== 39 &&
+          e.keyCode !== 112 &&
+          e.keyCode !== 113 &&
+          e.keyCode !== 114 &&
+          e.keyCode !== 115 &&
+          e.keyCode !== 116 &&
+          e.keyCode !== 117 &&
+          e.keyCode !== 118 &&
+          e.keyCode !== 119 &&
+          e.keyCode !== 120 &&
+          e.keyCode !== 121 &&
+          e.keyCode !== 122 &&
+          e.keyCode !== 123 &&
+          e.keyCode !== 144
+        ) {
+          $("#loading").show();
+          $("#student__info").hide();
+          $.ajax({
+            method: "GET",
+            url: `http://localhost:8080/revo/server/public/students/search/${search}`,
+            cache: false,
+            success: response => {
+              $("#loading").hide();
+              $("#student__info").show();
+              var searchResult = JSON.parse(response);
+              var finalResult = "";
+              if (searchResult.error) {
+                $("#student__info").html(`
                 <div>
                   <div class="uk-card uk-card-default uk-card-hover uk-card-body card__user">
                     <h3 class="uk-card-title">
@@ -67,21 +87,21 @@ $(() => {
                   </div>
                 </div>
               `);
-            } else {
-              searchResult.forEach(searchResult => {
-                let name = searchResult.name,
-                  reg_no = searchResult.reg_no,
-                  matric = searchResult.matric,
-                  face = searchResult.face,
-                  webmail = searchResult.webmail,
-                  dept = searchResult.dept,
-                  hall = searchResult.hall,
-                  room = searchResult.room;
-                finalResult += `
+              } else {
+                searchResult.forEach(searchResult => {
+                  let name = searchResult.name,
+                    reg_no = searchResult.reg_no,
+                    matric = searchResult.matric,
+                    face = searchResult.face,
+                    webmail = searchResult.webmail,
+                    dept = searchResult.dept,
+                    hall = searchResult.hall,
+                    room = searchResult.room;
+                  finalResult += `
                   <div>
                     <div class="uk-card uk-card-default uk-card-hover uk-card-body card__user">
                       <h3 class="uk-card-title">
-                        <img src="${face}" alt="" width="100" class="uk-border-circle"/>
+                        <img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" width="100" class=""/>
                       </h3>
                       <p>
                         <span uk-icon="icon: user" id="details__text"></span> Name:
@@ -109,27 +129,28 @@ $(() => {
                     </div>
                   </div>
                 `;
-                $(document).on("click", `#${reg_no}`, e => {
-                  e.preventDefault();
-                  $(`#${reg_no}`).html("<div uk-spinner></div>");
-                  $.ajax({
-                    method: "GET",
-                    url: `http://localhost:8080/revo/server/public/offense/${reg_no}`,
-                    cache: false,
-                    success: data => {
-                      $(`#${reg_no}`).html("Book Student");
-                      var data = JSON.parse(data);
-                      var offenseOutput = `
+                  $(document).on("click", `#${reg_no}`, e => {
+                    e.preventDefault();
+                    $(`#${reg_no}`).html("<div uk-spinner></div>");
+                    $.ajax({
+                      method: "GET",
+                      url: `http://localhost:8080/revo/server/public/offense/${reg_no}`,
+                      cache: false,
+                      success: data => {
+                        $(`#${reg_no}`).html("Book Student");
+                        var data = JSON.parse(data);
+                        var offenseOutput = `
                         <div class="uk-modal-dialog">
                           <button class="uk-modal-close-full uk-close-large" type="button" uk-close></button>
                           <div class="uk-grid-collapse uk-child-width-1-2@s uk-flex-middle" uk-grid uk-overflow-auto>
                             <div class="uk-background-cover" uk-height-viewport uk-overflow-auto>
                               <div class="uk-card-default card__hover uk-card-body">
                                 <div class="avatar__wrapper uk-flex-center">
-                                  <img src="../img/avatar.png" alt="" />
+                                  <img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" />
                                 </div>
                                 <header>
                                   <div class="">
+                                  <a href="#" id="profile__${reg_no}">View Profile</a>
                                     <h1 class="uk-flex-center uk-heading-bullet">
                                       <span uk-icon="icon: user" id="details__text"></span>
                                       Student's Bio Data.
@@ -156,14 +177,6 @@ $(() => {
                                     <span uk-icon="icon: database" id="details__text"></span>
                                     <span id="details__text">DEPARTMENT:</span>${dept}
                                   </div>
-                                  <div class="user__data">
-                                    <span uk-icon="icon: database" id="details__text"></span>
-                                    <span id="details__text">WEBMAIL:</span>${webmail}
-                                  </div>
-                                  <div class="user__data">
-                                    <span uk-icon="icon: database" id="details__text"></span>
-                                    <span id="details__text">HALL OF RESIDENCE:</span>${hall} ${room}
-                                  </div>
                                 </div>
                                 <header id="offence__header">
                                   <h1 class="uk-flex-center uk-heading-bullet">
@@ -172,9 +185,19 @@ $(() => {
                                   </h1>
                                   <hr id="custom__divider" />
                                 </header>
-                      `;
-                      if (data.error) {
-                        offenseOutput += `
+                        `;
+                        $(document).on("click", `#profile__${reg_no}`, () => {
+                          if (localStorage.getItem("reg_no") == null) {
+                            localStorage.setItem("reg_no", reg_no);
+                            location.href = "user.php";
+                          } else if (localStorage.getItem("reg_no") != null) {
+                            localStorage.removeItem("reg_no");
+                            localStorage.setItem("reg_no", reg_no);
+                            location.href = "user.php";
+                          }
+                        });
+                        if (data.error) {
+                          offenseOutput += `
                             <div class="user__info uk-flex-center" uk-grid>
                             <div class="user__data">
                               <span uk-icon="icon: history" id="details__text"></span>
@@ -183,15 +206,15 @@ $(() => {
                             </div>
                           </div>
                         `;
-                        $("#book__now").html(offenseOutput);
-                      } else {
-                        data.forEach((offenseResult, key) => {
-                          var offense = offenseResult.offense,
-                            punishment = offenseResult.punishment,
-                            category = offenseResult.category,
-                            status = offenseResult.status,
-                            created = offenseResult.created;
-                          offenseOutput += `
+                          $("#book__now").html(offenseOutput);
+                        } else {
+                          data.forEach((offenseResult, key) => {
+                            var offense = offenseResult.offense,
+                              punishment = offenseResult.punishment,
+                              category = offenseResult.category,
+                              status = offenseResult.status,
+                              created = offenseResult.created;
+                            offenseOutput += `
                             <div class="user__info uk-flex-center" uk-grid>
                               <div class="user__data">
                               <strong>${key}</strong>
@@ -222,9 +245,9 @@ $(() => {
                               </div>
                             </div>
                           `;
-                        });
-                      }
-                      offenseOutput += `    
+                          });
+                        }
+                        offenseOutput += `    
                         </div>
                       </div>
                       <div class="uk-padding-large">
@@ -240,7 +263,6 @@ $(() => {
                                   <option value="Stealing">Stealing</option>
                                   <option value="Drug Abuse">Drug Abuse</option>
                                   <option value="Chapel Voliation">Chapel Voliation</option>
-                                  <option value="Insubordination">Insubordination</option>
                                   <option value="Dress Code Voliation">Dress Code Voliation</option>
                                 </select>
                               </div>
@@ -261,95 +283,108 @@ $(() => {
                               </div>
                             </div>
                           </div>
-                          <div class="uk-margin">
-                              <textarea class="uk-textarea" rows="5" placeholder="Revolutionary Member Report on the offence" id="revo_report"></textarea>
+  
+                          <div class="uk-margin ">
+                            <div class="uk-inline uk-width-1-1">
+                              <label class="uk-form-label" for="newCategory" style="color:#fff">Member report</label>
+                              <div class="uk-form-controls">
+                               <textarea class="uk-textarea" id="report" max-length="250"></textarea>
+                              </div>
+                            </div>
                           </div>
-                          <button class="uk-button rounded lmu__btn__success" id="bookStudent">
-                            Submit Form <span uk-icon="icon: check"></span>
+                          <button class="uk-button rounded" id="bookStudent" style="background-color:#2E7D32 !important; color:#fff">
+                            Submit Form
                           </button>
                           </span>
                       </div>
                       `;
-                      $("#book__now").html(offenseOutput);
-                      $("#bookStudent").click(() => {
-                        var newOffense = $("#newOffense").val();
-                        var newCategory = $("#newCategory").val();
-                        if (newCategory !== "" && newOffense !== "") {
-                          UIkit.modal
-                            .confirm(`Are you sure you want to book ${name}?`)
-                            .then(
-                              () => {
-                                $(`#${reg_no}`).html("<div uk-spinner></div>");
-                                $.ajax({
-                                  method: "POST",
-                                  url:
-                                    "http://localhost:8080/revo/server/public/book",
-                                  data: {
-                                    reg_no: reg_no,
-                                    offense: newOffense,
-                                    category: newCategory
-                                  },
-                                  cache: false,
-                                  success: result => {
-                                    result = JSON.parse(result);
-                                    $(`#${reg_no}`).html("Book Student");
-                                    if (result.error) {
-                                      UIkit.modal.alert(result.error.err_text);
-                                    } else {
+                        $("#book__now").html(offenseOutput);
+                        $("#bookStudent").click(() => {
+                          var newOffense = $("#newOffense").val();
+                          var newCategory = $("#newCategory").val();
+                          var report = $("#report").val();
+                          if (newCategory !== "" && newOffense !== "") {
+                            UIkit.modal
+                              .confirm(`Are you sure you want to book ${name}?`)
+                              .then(
+                                () => {
+                                  $(`#${reg_no}`).html(
+                                    "<div uk-spinner></div>"
+                                  );
+                                  $.ajax({
+                                    method: "POST",
+                                    url:
+                                      "http://localhost:8080/revo/server/public/book",
+                                    data: {
+                                      reg_no: reg_no,
+                                      offense: newOffense,
+                                      category: newCategory,
+                                      member_report: report
+                                    },
+                                    cache: false,
+                                    success: result => {
+                                      result = JSON.parse(result);
+                                      $(`#${reg_no}`).html("Book Student");
+                                      if (result.error) {
+                                        UIkit.modal.alert(
+                                          result.error.err_text
+                                        );
+                                      } else {
+                                        UIkit.modal.alert(
+                                          `${name} has been booked successfully`
+                                        );
+                                      }
+                                    },
+                                    error: () => {
+                                      $(`#${reg_no}`).html("Book Student");
                                       UIkit.modal.alert(
-                                        `${name} has been booked successfully`
+                                        "Couldn't connect to server"
                                       );
                                     }
-                                  },
-                                  error: () => {
-                                    $(`#${reg_no}`).html("Book Student");
-                                    UIkit.modal.alert(
-                                      "Couldn't connect to server"
-                                    );
-                                  }
-                                });
-                              },
-                              () => {
-                                $(`#${reg_no}`).html("Book Student");
-                              }
-                            );
-                        } else {
-                          UIkit.notification({
-                            message: "All Fields Required!",
-                            status: "danger",
-                            pos: "top-center",
-                            timeout: 5000
-                          });
-                          $("#bookStudent").addClass("uk-animation-shake");
-                        }
-                      });
-                    },
-                    error: () => {
-                      $(`#${reg_no}`).html("Book Student");
-                      UIkit.notification({
-                        message: "Sorry we couldn't connect to server",
-                        status: "warning",
-                        pos: "top-right",
-                        timeout: 5000
-                      });
-                    }
+                                  });
+                                },
+                                () => {
+                                  $(`#${reg_no}`).html("Book Student");
+                                }
+                              );
+                          } else {
+                            UIkit.notification({
+                              message: "All Fields Required!",
+                              status: "danger",
+                              pos: "top-center",
+                              timeout: 5000
+                            });
+                            $("#bookStudent").addClass("uk-animation-shake");
+                          }
+                        });
+                      },
+                      error: () => {
+                        $(`#${reg_no}`).html("Book Student");
+                        UIkit.notification({
+                          message: "Sorry we couldn't connect to server",
+                          status: "warning",
+                          pos: "top-right",
+                          timeout: 5000
+                        });
+                      }
+                    });
                   });
                 });
+                $("#student__info").html(finalResult);
+              }
+            },
+            error: () => {
+              $("#loading").hide();
+              $("#student__info").show();
+              UIkit.notification({
+                message: "Sorry we couldn't connect to server",
+                status: "warning",
+                pos: "top-right",
+                timeout: 5000
               });
-              $("#student__info").html(finalResult);
             }
-          },
-          error: () => {
-            $("#loading").hide();
-            $("#student__info").show();
-            UIkit.notification({
-              message: "Sorry we couldn't connect to server",
-              status: "warning",
-              pos: "top-right",
-              timeout: 5000
-            });
-          }
-        });
+          });
+        }
       }
     } else {
       $("#student__info").show();

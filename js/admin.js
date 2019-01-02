@@ -1,110 +1,362 @@
-$(document).ready(function() {
-$(function() {
-  function sidebarToggle(toogle) {
-    let sidebar = $("#sidebar");
-    var padder = $(".content-padder");
-    if (toogle) {
-      sidebar.css({ display: "block", x: -300 });
-      sidebar.transition({ opacity: 1, x: 0 }, 250, "in-out", function() {
-        sidebar.css("display", "block");
-      });
-      if ($(window).width() > 960) {
-        padder.transition({ marginLeft: sidebar.css("width") }, 250, "in-out");
-      }
-    } else {
-      sidebar.css({ display: "block", x: "0px" });
-      sidebar.transition({ x: -300, opacity: 0 }, 250, "in-out", () => {
-        sidebar.css("display", "none");
-      });
-      padder.transition({ marginLeft: 0 }, 250, "in-out");
-    }
+$(() => {
+  // CHECK LOCALSTORAGE
+  if (localStorage.getItem("reg_no") != null) {
+    localStorage.removeItem("reg_no");
   }
+  // CATEGORY A
+  $("#a").on("click", e => {
+    var href = $("#a").attr("href");
+    axios
+      .get(`http://localhost:8080/revo/server/public/booked/${href}`)
+      .then(result => {
+        var data = result.data,
+          outputA = "";
+        if (data.error) {
+          outputA += `
+          <tr>     
+            <td>0</td>
+            <td>No image</td>
+            <td>John Doe</td>
+            <td>No registration number</td>
+            <td>No matriculation number</td>
+            <td>No offense</td>
+          </tr>`;
+          $("#show__a").html(outputA);
+        } else {
+          data.forEach((catA, key) => {
+            let id = key,
+              reg_no = catA.reg_no,
+              offense = catA.offense;
+            axios
+              .get(
+                `http://localhost:8080/revo/server/public/students/${reg_no}`
+              )
+              .then(result => {
+                var data = result.data;
 
-  $("#sidebar_toggle").click(function() {
-    var sidebar = $("#sidebar");
-    var padder = $(".content-padder");
-    if (sidebar.css("x") == "-300px" || sidebar.css("display") == "none") {
-      sidebarToggle(true);
-    } else {
-      sidebarToggle(false);
-    }
-  });
+                data.forEach(student => {
+                  let name = student.name,
+                    matric = student.matric,
+                    hall = student.hall,
+                    room_no = student.room;
+                  outputA += `<tr id="${reg_no}" style="cursor:pointer">     
+                  <td>${1 + id}</td>
+                  <td><img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" id="avatar__img"/></td>
+                  <td>${name}</td>
+                  <td>${reg_no}</td>
+                  <td>${matric}</td>
+                  <td>${offense}</td>
+              </tr>`;
+                });
 
-  function resize() {
-    var sidebar = $("#sidebar");
-    var padder = $(".content-padder");
-    padder.removeAttr("style");
-    if ($(window).width() < 960 && sidebar.css("display") == "block") {
-      sidebarToggle(false);
-    } else if ($(window).width() > 960 && sidebar.css("display") == "none") {
-      sidebarToggle(true);
-    }
-  }
-
-  if ($(window).width() < 960) {
-    sidebarToggle(false);
-  }
-
-  $(window).resize(function() {
-    resize();
-  });
-
-  $(".content-padder").click(function() {
-    if ($(window).width() < 960) {
-      sidebarToggle(false);
-    }
-  });
-
-  //Graficas
-  var data = {
-    labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio"],
-    datasets: [
-      {
-        label: "# de Visitantes",
-        data: [12, 19, 3, 5, 2, 3],
-        backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(54, 162, 235, 0.2)",
-          "rgba(255, 206, 86, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
-          "rgba(153, 102, 255, 0.2)",
-          "rgba(255, 159, 64, 0.2)"
-        ],
-        borderColor: [
-          "rgba(255,99,132,1)",
-          "rgba(54, 162, 235, 1)",
-          "rgba(255, 206, 86, 1)",
-          "rgba(75, 192, 192, 1)",
-          "rgba(153, 102, 255, 1)",
-          "rgba(255, 159, 64, 1)"
-        ],
-        borderWidth: 1
-      }
-    ]
-  };
-  var options = {
-    scales: {
-      yAxes: [
-        {
-          ticks: {
-            beginAtZero: true
-          }
+                $(document).on("click", `#${reg_no}`, e => {
+                  e.preventDefault();
+                  console.log(reg_no);
+                  if (localStorage.getItem("reg_no") == null) {
+                    localStorage.setItem("reg_no", reg_no);
+                    location.href = "user.php";
+                  } else if (localStorage.getItem("reg_no") != null) {
+                    localStorage.removeItem("reg_no");
+                    localStorage.setItem("reg_no", reg_no);
+                    location.href = "user.php";
+                  }
+                });
+                $("#show__a").html(outputA);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
         }
-      ]
-    }
-  };
-  var ctx = document.getElementById("chart1").getContext("2d");
-  var myChart = new Chart(ctx, {
-    type: "line",
-    data: data,
-    options: options
+      })
+      .catch(err => {
+        console.log(err);
+      });
   });
+  // END OF CATEGORY A
 
-  var ctx = document.getElementById("chart2").getContext("2d");
-  var myChart = new Chart(ctx, {
-    type: "bar",
-    data: data,
-    options: options
+  // CATEGORY B
+  $("#b").on("click", e => {
+    var href = $("#b").attr("href");
+    axios
+      .get(`http://localhost:8080/revo/server/public/booked/${href}`)
+      .then(result => {
+        var data = result.data,
+          outputB = "";
+        if (data.error) {
+          outputB += `
+          <tr>     
+            <td>0</td>
+            <td>No image</td>
+            <td>John Doe</td>
+            <td>No registration number</td>
+            <td>No matriculation number</td>
+            <td>No offense</td>
+          </tr>`;
+          $("#show__b").html(outputB);
+        } else {
+          data.forEach((catB, key) => {
+            let id = key,
+              reg_no = catB.reg_no,
+              offense = catB.offense;
+            axios
+              .get(
+                `http://localhost:8080/revo/server/public/students/${reg_no}`
+              )
+              .then(result => {
+                var data = result.data;
+
+                data.forEach(student => {
+                  let name = student.name,
+                    matric = student.matric,
+                    hall = student.hall,
+                    room_no = student.room;
+                  outputB += `<tr id="${reg_no}" style="cursor:pointer">     
+                  <td>${1 + id}</td>
+                  <td><img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" id="avatar__img" /></td>
+                  <td>${name}</td>
+                  <td>${reg_no}</td>
+                  <td>${matric}</td>
+                  <td>${offense}</td>
+              </tr>`;
+                });
+
+                $(document).on("click", `#${reg_no}`, e => {
+                  e.preventDefault();
+                  console.log(reg_no);
+                  if (localStorage.getItem("reg_no") == null) {
+                    localStorage.setItem("reg_no", reg_no);
+                    location.href = "user.php";
+                  } else if (localStorage.getItem("reg_no") != null) {
+                    localStorage.removeItem("reg_no");
+                    localStorage.setItem("reg_no", reg_no);
+                    location.href = "user.php";
+                  }
+                });
+                $("#show__b").html(outputB);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+  // END OF CATEGORY B
+
+  // CATEGORY C
+  $("#c").on("click", e => {
+    var href = $("#c").attr("href");
+    axios
+      .get(`http://localhost:8080/revo/server/public/booked/${href}`)
+      .then(result => {
+        var data = result.data,
+          outputC = "";
+        if (data.error) {
+          outputC += `
+          <tr>     
+            <td>0</td>
+            <td>No image</td>
+            <td>John Doe</td>
+            <td>No registration number</td>
+            <td>No matriculation number</td>
+            <td>No offense</td>
+          </tr>`;
+          $("#show__c").html(outputC);
+        } else {
+          data.forEach((catC, key) => {
+            let id = key,
+              reg_no = catC.reg_no,
+              offense = catC.offense;
+            axios
+              .get(
+                `http://localhost:8080/revo/server/public/students/${reg_no}`
+              )
+              .then(result => {
+                var data = result.data;
+
+                data.forEach(student => {
+                  let name = student.name,
+                    matric = student.matric,
+                    hall = student.hall,
+                    room_no = student.room;
+                  outputC += `
+                  <tr id="${reg_no}" style="cursor:pointer">     
+                    <td>${1 + id}</td>
+                    <td><img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" id="avatar__img" /></td>
+                    <td>${name}</td>
+                    <td>${reg_no}</td>
+                    <td>${matric}</td>
+                    <td>${offense}</td>
+                  </tr>`;
+                });
+
+                $(document).on("click", `#${reg_no}`, e => {
+                  e.preventDefault();
+                  console.log(reg_no);
+                  if (localStorage.getItem("reg_no") == null) {
+                    localStorage.setItem("reg_no", reg_no);
+                    location.href = "user.php";
+                  } else if (localStorage.getItem("reg_no") != null) {
+                    localStorage.removeItem("reg_no");
+                    localStorage.setItem("reg_no", reg_no);
+                    location.href = "user.php";
+                  }
+                });
+                $("#show__c").html(outputC);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+  // END OF CATEGORY C
+
+  // CATEGORY D
+  $("#d").on("click", e => {
+    var href = $("#d").attr("href");
+    axios
+      .get(`http://localhost:8080/revo/server/public/booked/${href}`)
+      .then(result => {
+        var data = result.data,
+          outputD = "";
+        if (data.error) {
+          outputD += `
+          <tr>     
+            <td>0</td>
+            <td>No image</td>
+            <td>John Doe</td>
+            <td>No registration number</td>
+            <td>No matriculation number</td>
+            <td>No offense</td>
+          </tr>`;
+          $("#show__d").html(outputD);
+        } else {
+          data.forEach((catD, key) => {
+            let id = key,
+              reg_no = catD.reg_no,
+              offense = catD.offense;
+            axios
+              .get(
+                `http://localhost:8080/revo/server/public/students/${reg_no}`
+              )
+              .then(result => {
+                var data = result.data;
+
+                data.forEach(student => {
+                  let name = student.name,
+                    matric = student.matric,
+                    hall = student.hall,
+                    room_no = student.room;
+                  outputD += `
+                  <tr id="${reg_no}" style="cursor:pointer">     
+                    <td>${1 + id}</td>
+                    <td><img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" /></td>
+                    <td>${name}</td>
+                    <td>${reg_no}</td>
+                    <td>${matric}</td>
+                    <td>${hall}</td>
+                    <td>${room_no}</td>
+                    <td>${offense}</td>
+                  </tr>`;
+                });
+
+                $(document).on("click", `#${reg_no}`, e => {
+                  e.preventDefault();
+                  console.log(reg_no);
+                  if (localStorage.getItem("reg_no") == null) {
+                    localStorage.setItem("reg_no", reg_no);
+                    location.href = "user.php";
+                  } else if (localStorage.getItem("reg_no") != null) {
+                    localStorage.removeItem("reg_no");
+                    localStorage.setItem("reg_no", reg_no);
+                    location.href = "user.php";
+                  }
+                });
+                $("#show__d").html(outputD);
+              })
+              .catch(err => {
+                console.log(err);
+              });
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
   });
 });
-})
+// END OF CATEGORY D
+
+// DEFAULT
+axios
+  .get(`http://localhost:8080/revo/server/public/booked/a`)
+  .then(result => {
+    var data = result.data,
+      outputA = "";
+    if (data.error) {
+      outputA += `
+          <tr>     
+            <td>0</td>
+            <td>No image</td>
+            <td>John Doe</td>
+            <td>No registration number</td>
+            <td>No matriculation number</td>
+            <td>No offense</td>
+          </tr>`;
+      $("#show__a").html(outputA);
+    } else {
+      data.forEach((catA, key) => {
+        let id = key,
+          reg_no = catA.reg_no,
+          offense = catA.offense;
+        axios
+          .get(`http://localhost:8080/revo/server/public/students/${reg_no}`)
+          .then(result => {
+            var data = result.data;
+
+            data.forEach(student => {
+              let name = student.name,
+                matric = student.matric,
+                hall = student.hall,
+                room_no = student.room;
+              outputA += `<tr id="${reg_no}" style="cursor:pointer">     
+                  <td>${1 + id}</td>
+                  <td><img src="http://localhost:8080/revo/faces/${reg_no}.JPG" alt="" id="avatar__img"/></td>
+                  <td>${name}</td>
+                  <td>${reg_no}</td>
+                  <td>${matric}</td>
+                  <td>${offense}</td>
+              </tr>`;
+            });
+
+            $(document).on("click", `#${reg_no}`, e => {
+              e.preventDefault();
+              if (localStorage.getItem("reg_no") == null) {
+                localStorage.setItem("reg_no", reg_no);
+                location.href = "user.php";
+              } else if (localStorage.getItem("reg_no") != null) {
+                localStorage.removeItem("reg_no");
+                localStorage.setItem("reg_no", reg_no);
+                location.href = "user.php";
+              }
+            });
+            $("#show__a").html(outputA);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });

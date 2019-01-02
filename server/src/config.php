@@ -14,6 +14,17 @@ class Db
         return $dbcon;
     }
 
+    public function cleanInput($input) {
+       $input = htmlspecialchars($input, ENT_QUOTES);
+       return $input;
+    }
+
+    public function cleanUsername($username) {
+        $username = htmlspecialchars($username, ENT_QUOTES);
+        $username = strtolower($username);
+        return $username;
+    }
+
     /*************************************************************
      ******************** GET QUERY FUNCTION **********************
      *************************************************************/
@@ -107,31 +118,30 @@ class Db
         return date('M j, Y g:i A', $time);
     }
 
-    public function mail($subject, $body, $address)
+    public function send__mail($subject, $body, $address, $name)
     {
         require '../sendgrid/vendor/autoload.php';
-        $FROM_EMAIL = 'noreply-sanctuary@hiddenhyve.org';
-        // they dont like when it comes from @gmail, prefers business emails
+        $API_KEY = "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";
+        $FROM_EMAIL = 'revolutionary@lmu.edu.ng';
+        $FROM_NAME = 'Revolutionary Squad';
         $TO_EMAIL = $address;
-        // Try to be nice. Take a look at the anti spam laws. In most cases, you must
-        // have an unsubscribe. You also cannot be misleading.
+        $TO_NAME = $name;
         $subject = $subject;
-        $from = new SendGrid\Email(null, $FROM_EMAIL);
-        $to = new SendGrid\Email(null, $TO_EMAIL);
+        $from = new SendGrid\Email($FROM_NAME, $FROM_EMAIL);
+        $to = new SendGrid\Email($TO_NAME, $TO_EMAIL);
         $htmlContent = $body;
         // Create Sendgrid content
         $content = new SendGrid\Content("text/html", $htmlContent);
         // Create a mail object
         $mail = new SendGrid\Mail($from, $subject, $to, $content);
-
-        $sg = new \SendGrid("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");
+        $sg = new \SendGrid($API_KEY);
         $response = $sg->client->mail()->send()->post($mail);
-
         if ($response->statusCode() == 202) {
             // Successfully sent
-            echo '{"success":{"success_text":"A verification code has been sent to ' . $address . '"}}';
+            return true;
         } else {
-            echo '{"error":{"err_text": "Something wrong happened; Couln\'t send a mail to ' . $address . '"}}';
+            // Failure 
+            return false;
         }
     }
 
